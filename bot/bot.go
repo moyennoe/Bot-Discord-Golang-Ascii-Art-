@@ -55,16 +55,15 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 		fmt.Println("commande: ", split[1:])
 
-		if split[0] == "!ping" {
+		if split[0] == "!ascii" {
 
 			myString := strings.Join(split[1:], " ")
 			//_, _ = s.ChannelMessageSend(m.ChannelID, "```"+result+"```")
 			file, _ := os.Open("standard.txt") // indique quelle fichier regarder
 			fileVal := ScanFile(file)
-			for _, v := range myString {
-				_, _ = s.ChannelMessageSend(m.ChannelID, "```"+printLetter(string(v), fileVal)+"```") //fait jusqu'a la fin de l'arg renseigner
+			//for _, v := range myString {
+			_, _ = s.ChannelMessageSend(m.ChannelID, "```"+printLetter(string(myString), fileVal)+"```") //fait jusqu'a la fin de l'arg renseigner
 
-			}
 		}
 	}
 }
@@ -73,7 +72,7 @@ func printLetter(s string, fileVal []string) string { // determine la ligne et e
 	for i := 1; i <= 8; i++ { // permet d'ecrire la ligne 1, puis 2 ...
 		for _, arg := range s {
 			indexBase := int(rune(arg)-32) * 9 // trouve quelle est la ligne
-			fmt.Println(indexBase)
+			//fmt.Println(indexBase)
 			k += fileVal[indexBase+i] // ecrit la ligne voulue
 
 		}
