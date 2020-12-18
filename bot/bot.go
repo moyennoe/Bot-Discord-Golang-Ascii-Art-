@@ -58,45 +58,41 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if len(split) > 1 {
 			if split[0] == "!ascii" {
 				myString := strings.Join(split[1:], " ")
-				//_, _ = s.ChannelMessageSend(m.ChannelID, "```"+result+"```")
-				file, _ := os.Open("standard.txt") // indique quelle fichier regarder
+
+				file, _ := os.Open("standard.txt")
 				fileVal := ScanFile(file)
-				//for _, v := range myString {
+
 				_, _ = s.ChannelMessageSend(m.ChannelID, "```"+printLetter(string(myString), fileVal)+"```") //fait jusqu'a la fin de l'arg renseigner
-				//	}
 
 			}
 			if split[0] == "!ascii1" {
 				myString := strings.Join(split[1:], " ")
-				//_, _ = s.ChannelMessageSend(m.ChannelID, "```"+result+"```")
-				file, _ := os.Open("standard.txt") // indique quelle fichier regarder
+
+				file, _ := os.Open("standard.txt")
 				fileVal := ScanFile(file)
-				//for _, v := range myString {
+
 				_, _ = s.ChannelMessageSend(m.ChannelID, "```"+printLetter(string(myString), fileVal)+"```") //fait jusqu'a la fin de l'arg renseigner
-				//	}
 
 			}
 			if split[0] == "!ascii2" {
 				myString := strings.Join(split[1:], " ")
-				//_, _ = s.ChannelMessageSend(m.ChannelID, "```"+result+"```")
-				file, _ := os.Open("thinkertoy.txt") // indique quelle fichier regarder
+
+				file, _ := os.Open("thinkertoy.txt")
 				fileVal := ScanFile(file)
-				//for _, v := range myString {
+
 				_, _ = s.ChannelMessageSend(m.ChannelID, "```"+printLetter(string(myString), fileVal)+"```") //fait jusqu'a la fin de l'arg renseigner
 
-				//}
 			}
 
 			if split[0] == "!ascii3" {
 
 				myString := strings.Join(split[1:], " ")
-				//_, _ = s.ChannelMessageSend(m.ChannelID, "```"+result+"```")
-				file, _ := os.Open("shadow.txt") // indique quelle fichier regarder
+
+				file, _ := os.Open("shadow.txt")
 				fileVal := ScanFile(file)
-				//for _, v := range myString {
+
 				_, _ = s.ChannelMessageSend(m.ChannelID, "```"+printLetter(string(myString), fileVal)+"```") //fait jusqu'a la fin de l'arg renseigner
 
-				//}
 			}
 		} else {
 			s.ChannelMessageSend(m.ChannelID, "il n'y a pas de message")
@@ -104,17 +100,21 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	}
 }
-func printLetter(s string, fileVal []string) string { // determine la ligne et ecrit la ligne
+func printLetter(s string, fileVal []string) string {
 	k := ""
 
-	for i := 1; i <= 8; i++ { // permet d'ecrire la ligne 1, puis 2 ...
+	for i := 1; i <= 8; i++ {
 		for _, arg := range s {
-			indexBase := int(rune(arg)-32) * 9 // trouve quelle est la ligne
-			//	fmt.Println(indexBase + i)
-			k += fileVal[indexBase+i] // ecrit la ligne voulue
+			indexBase := int(rune(arg)-32) * 9
+			if indexBase > 856 {
+				k = "index out of range"
+				return k
+			} else {
+				k += fileVal[indexBase+i]
+			}
 
 		}
-		k += "\n" // permet un simple retour a la ligne
+		k += "\n"
 
 	}
 	return k
